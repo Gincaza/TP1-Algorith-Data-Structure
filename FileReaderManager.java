@@ -10,7 +10,7 @@ public class FileReaderManager {
     private String binaryFilePath;
     private Integer quantity;
 
-    public void setFilePath(String baseFilePath) {
+    private void setFilePath(String baseFilePath) {
         
         if (baseFilePath == null) {
             throw new IllegalArgumentException("FilePath não pode ser null");
@@ -27,8 +27,16 @@ public class FileReaderManager {
         }
     }
 
-    public FileReaderManager(String filePath, Integer quantity) {
+    private void setQuantity(Integer quantity) {
+        if (quantity == null || quantity <= 0) {
+            throw new IllegalArgumentException("Quantidade invalida");
+        }
+
         this.quantity = quantity;
+    }
+
+    public FileReaderManager(String filePath, Integer quantity) {
+        setQuantity(quantity);
         setFilePath(filePath);
     }
 
@@ -45,7 +53,7 @@ public class FileReaderManager {
         return quantity;
     }
 
-    public int[] readTexFile() throws IOException {
+    public int[] readTextFile() throws IOException {
         if (textFilePath == null || quantity <= 0) {
             throw new IllegalArgumentException("Caminho do arquivo ou quantidade devem ser validos");
         }
