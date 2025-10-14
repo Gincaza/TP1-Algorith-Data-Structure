@@ -78,7 +78,7 @@ public class FileReaderManager {
         return numbers;
     }
 
-    public void writeTextFile(int[] values) throws IOException {
+    private void writeTextFile(int[] values) throws IOException {
         if (textFilePath == null) {
             throw new IllegalArgumentException("Caminho do arquivo null");
         }
@@ -97,7 +97,7 @@ public class FileReaderManager {
         Files.write(path, lines);
     }
 
-    public void writeBinaryFile(byte data[]) throws IOException {
+    private void writeBinaryFile(byte data[]) throws IOException {
         if (binaryFilePath == null) {
             throw new IllegalArgumentException("Caminho do arquivo null");
         }
