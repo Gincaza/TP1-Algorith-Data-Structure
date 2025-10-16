@@ -17,10 +17,10 @@ public class Manager {
         }
         
         try {
-            String caminhoArquivo = args[0];
-            Integer quantidade = Integer.parseInt(args[1]);
+            String filePath = args[0];
+            Integer quantity = Integer.parseInt(args[1]);
             
-            Manager manager = new Manager(caminhoArquivo, quantidade);
+            Manager manager = new Manager(filePath, quantity);
             
         } catch (NumberFormatException e) {
             System.err.println("Error: Quantity must be a valid number");

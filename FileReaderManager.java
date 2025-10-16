@@ -29,7 +29,7 @@ public class FileReaderManager {
 
     private void setQuantity(Integer quantity) {
         if (quantity == null || quantity <= 0) {
-            throw new IllegalArgumentException("Quantidade invalida");
+            throw new IllegalArgumentException("Invalid quantity");
         }
 
         this.quantity = quantity;
