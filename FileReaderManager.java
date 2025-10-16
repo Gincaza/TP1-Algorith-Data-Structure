@@ -78,26 +78,40 @@ public class FileReaderManager {
         return numbers;
     }
 
-    private void writeTextFile(int[] values) throws IOException {
-        if (textFilePath == null) {
+    public void writeTextToFile(List<String> lines, String filePath) throws IOException {
+        if (lines == null) {
+            throw new IllegalArgumentException("Lines can't be null");
+        }
+        if (filePath == null) {
             throw new IllegalArgumentException("File path can't be null");
         }
-
-        if (values == null || values.length == 0) {
-            throw new IllegalArgumentException("Value can't be empty");
-        }
-
-        Path path = Paths.get(textFilePath);
-        List<String> lines = new ArrayList<>();
-
-        for (Integer value : values) {
-            lines.add(value.toString());
-        }
-
+        
+        Path path = Paths.get(filePath);
         Files.write(path, lines);
     }
 
-    private void writeBinaryFile(byte data[]) throws IOException {
+    public void writeBinaryToFile(byte[] data, String filePath) throws IOException {
+        if (data == null) {
+            throw new IllegalArgumentException("Data can't be null");
+        }
+        if (filePath == null) {
+            throw new IllegalArgumentException("File path can't be null");
+        }
+        
+        Path path = Paths.get(filePath);
+        Files.write(path, data);
+    }
+
+    private void initTextFile(int[] values) throws IOException {
+
+        List<String> lines = new ArrayList<>();
+        for (int value : values) {
+            lines.add(String.valueOf(value));
+        }
+        writeTextToFile(lines, this.textFilePath);
+    }
+
+    private void initByteFile(byte data[]) throws IOException {
         if (binaryFilePath == null) {
             throw new IllegalArgumentException("File path can't be null");
         }
@@ -106,8 +120,7 @@ public class FileReaderManager {
             throw new IllegalArgumentException("Data can't be null");
         }
 
-        Path path = Paths.get(binaryFilePath);
-        Files.write(path, data);
+        writeBinaryToFile(data, this.binaryFilePath);
     }
 
     public byte[] readBinaryFile() throws IOException {
@@ -126,8 +139,8 @@ public class FileReaderManager {
     private void createBothFiles() {
         int[] numbers = intGenerator();
         try {
-            writeTextFile(numbers);
-            writeBinaryFile(DataConverter.intsToBytes(numbers));
+            initTextFile(numbers);
+            initByteFile(DataConverter.intsToBytes(numbers));
         } catch (IOException e) {
             throw new RuntimeException("Error while creating files", e);
         }
