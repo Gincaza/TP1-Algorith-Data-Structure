@@ -137,7 +137,7 @@ public class FileReaderManager {
         int[] values = new int[quantity];
         java.util.Random random = new java.util.Random();
         for (int i = 0; i < quantity; i++) {
-            values[i] = random.nextInt();
+            values[i] = random.nextInt(101);
         }
         return values;
     }
