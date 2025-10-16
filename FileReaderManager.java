@@ -13,7 +13,7 @@ public class FileReaderManager {
     private void setFilePath(String baseFilePath) {
         
         if (baseFilePath == null) {
-            throw new IllegalArgumentException("File path can't be null");
+            throw new IllegalArgumentException(ErrorMessages.FILE_PATH_NULL);
         }
 
         this.textFilePath = baseFilePath + ".txt";
@@ -29,7 +29,7 @@ public class FileReaderManager {
 
     private void setQuantity(Integer quantity) {
         if (quantity == null || quantity <= 0) {
-            throw new IllegalArgumentException("Invalid quantity");
+            throw new IllegalArgumentException(ErrorMessages.QUANTITY_INVALID);
         }
 
         this.quantity = quantity;
@@ -55,14 +55,14 @@ public class FileReaderManager {
 
     public int[] readTextFile() throws IOException {
         if (textFilePath == null || quantity <= 0) {
-            throw new IllegalArgumentException("File path and quantity must be valid");
+            throw new IllegalArgumentException(ErrorMessages.QUANTITY_PATH_INVALID);
         }
 
         int [] numbers = new int[quantity];
         Path path = Paths.get(textFilePath);
 
         if (!Files.exists(path)) {
-            throw new IOException("File not found");
+            throw new IOException(ErrorMessages.FILE_NOT_FOUND);
         }
 
         List<String> lines = Files.readAllLines(path);
@@ -71,7 +71,7 @@ public class FileReaderManager {
             try {
                 numbers[i] = Integer.parseInt(lines.get(i).trim());
             } catch (NumberFormatException e) {
-                throw new IOException("Erro ao converter para número");
+                throw new IOException(ErrorMessages.CONVERSION_ERROR);
             }
         }
 
@@ -80,10 +80,10 @@ public class FileReaderManager {
 
     public void writeTextToFile(List<String> lines, String filePath) throws IOException {
         if (lines == null) {
-            throw new IllegalArgumentException("Lines can't be null");
+            throw new IllegalArgumentException(ErrorMessages.LINES_NULL);
         }
         if (filePath == null) {
-            throw new IllegalArgumentException("File path can't be null");
+            throw new IllegalArgumentException(ErrorMessages.FILE_PATH_NULL);
         }
         
         Path path = Paths.get(filePath);
@@ -92,10 +92,10 @@ public class FileReaderManager {
 
     public void writeBinaryToFile(byte[] data, String filePath) throws IOException {
         if (data == null) {
-            throw new IllegalArgumentException("Data can't be null");
+            throw new IllegalArgumentException(ErrorMessages.DATA_NULL);
         }
         if (filePath == null) {
-            throw new IllegalArgumentException("File path can't be null");
+            throw new IllegalArgumentException(ErrorMessages.FILE_PATH_NULL);
         }
         
         Path path = Paths.get(filePath);
@@ -113,11 +113,11 @@ public class FileReaderManager {
 
     private void initByteFile(byte data[]) throws IOException {
         if (binaryFilePath == null) {
-            throw new IllegalArgumentException("File path can't be null");
+            throw new IllegalArgumentException(ErrorMessages.FILE_PATH_NULL);
         }
 
         if (data == null) {
-            throw new IllegalArgumentException("Data can't be null");
+            throw new IllegalArgumentException(ErrorMessages.DATA_NULL);
         }
 
         writeBinaryToFile(data, this.binaryFilePath);
@@ -125,12 +125,12 @@ public class FileReaderManager {
 
     public byte[] readBinaryFile() throws IOException {
         if (binaryFilePath == null) {
-            throw new IllegalArgumentException("File path can't be null");
+            throw new IllegalArgumentException(ErrorMessages.FILE_PATH_NULL);
         }
         
         Path path = Paths.get(binaryFilePath);
         if (!Files.exists(path)) {
-            throw new IOException("File don't exist");
+            throw new IOException(ErrorMessages.FILE_NOT_EXISTS);
         }
 
         return Files.readAllBytes(path);
@@ -141,8 +141,9 @@ public class FileReaderManager {
         try {
             initTextFile(numbers);
             initByteFile(DataConverter.intsToBytes(numbers));
+            System.out.println(String.format(ErrorMessages.FILES_CREATED, textFilePath, binaryFilePath));
         } catch (IOException e) {
-            throw new RuntimeException("Error while creating files", e);
+            throw new RuntimeException(ErrorMessages.FILE_CREATION_ERROR, e);
         }
     }
 
