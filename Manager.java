@@ -11,8 +11,8 @@ public class Manager {
     public static void main(String[] args) {
 
         if (args.length < 2) {
-            System.out.println("Uso: java Manager <caminho_arquivo> <quantidade>");
-            System.out.println("Exemplo: java Manager dados.txt 1000");
+            System.out.println("Use: java Manager <file_path> <quantity_of_integers>");
+            System.out.println("Example: java Manager data.txt 1000");
             return;
         }
         
@@ -20,13 +20,12 @@ public class Manager {
             String caminhoArquivo = args[0];
             Integer quantidade = Integer.parseInt(args[1]);
             
-            // Criar o manager com os parâmetros
             Manager manager = new Manager(caminhoArquivo, quantidade);
             
         } catch (NumberFormatException e) {
-            System.err.println("Erro: Quantidade deve ser um número válido");
+            System.err.println("Error: Quantity must be a valid number");
         } catch (Exception e) {
-            System.err.println("Erro: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
         }
     }
 }

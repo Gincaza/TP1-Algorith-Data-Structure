@@ -13,7 +13,7 @@ public class FileReaderManager {
     private void setFilePath(String baseFilePath) {
         
         if (baseFilePath == null) {
-            throw new IllegalArgumentException("FilePath não pode ser null");
+            throw new IllegalArgumentException("File path can't be null");
         }
 
         this.textFilePath = baseFilePath + ".txt";
@@ -55,14 +55,14 @@ public class FileReaderManager {
 
     public int[] readTextFile() throws IOException {
         if (textFilePath == null || quantity <= 0) {
-            throw new IllegalArgumentException("Caminho do arquivo ou quantidade devem ser validos");
+            throw new IllegalArgumentException("File path and quantity must be valid");
         }
 
         int [] numbers = new int[quantity];
         Path path = Paths.get(textFilePath);
 
         if (!Files.exists(path)) {
-            throw new IOException("Arquivo não encontrado");
+            throw new IOException("File not found");
         }
 
         List<String> lines = Files.readAllLines(path);
@@ -80,11 +80,11 @@ public class FileReaderManager {
 
     private void writeTextFile(int[] values) throws IOException {
         if (textFilePath == null) {
-            throw new IllegalArgumentException("Caminho do arquivo null");
+            throw new IllegalArgumentException("File path can't be null");
         }
 
         if (values == null || values.length == 0) {
-            throw new IllegalArgumentException("Valores não podem ser vazios");
+            throw new IllegalArgumentException("Value can't be empty");
         }
 
         Path path = Paths.get(textFilePath);
@@ -99,11 +99,11 @@ public class FileReaderManager {
 
     private void writeBinaryFile(byte data[]) throws IOException {
         if (binaryFilePath == null) {
-            throw new IllegalArgumentException("Caminho do arquivo null");
+            throw new IllegalArgumentException("File path can't be null");
         }
 
         if (data == null) {
-            throw new IllegalArgumentException("Dados não podem ser null");
+            throw new IllegalArgumentException("Data can't be null");
         }
 
         Path path = Paths.get(binaryFilePath);
@@ -112,12 +112,12 @@ public class FileReaderManager {
 
     public byte[] readBinaryFile() throws IOException {
         if (binaryFilePath == null) {
-            throw new IllegalArgumentException("Caminho do arquivo não pode ser null");
+            throw new IllegalArgumentException("File path can't be null");
         }
         
         Path path = Paths.get(binaryFilePath);
         if (!Files.exists(path)) {
-            throw new IOException("Arquivo não existe");
+            throw new IOException("File don't exist");
         }
 
         return Files.readAllBytes(path);
@@ -129,7 +129,7 @@ public class FileReaderManager {
             writeTextFile(numbers);
             writeBinaryFile(DataConverter.intsToBytes(numbers));
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao criar os arquivos", e);
+            throw new RuntimeException("Error while creating files", e);
         }
     }
 
